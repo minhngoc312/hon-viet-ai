@@ -62,7 +62,7 @@ class GuideMessage {
 }
 
 class AiService {
-  static const String baseUrl = 'http://10.0.2.2:8000';
+  static const String baseUrl = 'https://hon-viet-ai-api.onrender.com';
 
   static Future<HeritageResult> identifyHeritage(String imagePath) async {
     final request = http.MultipartRequest(
@@ -75,7 +75,7 @@ class AiService {
     request.files.add(await http.MultipartFile.fromPath('file', imagePath));
 
     final streamedResponse = await request.send().timeout(
-      const Duration(seconds: 90),
+      const Duration(seconds: 150),
     );
 
     final response = await http.Response.fromStream(streamedResponse);
@@ -106,7 +106,7 @@ class AiService {
             'messages': messages.map((message) => message.toJson()).toList(),
           }),
         )
-        .timeout(const Duration(seconds: 60));
+        .timeout(const Duration(seconds: 120));
 
     if (response.statusCode != 200) {
       throw Exception(
